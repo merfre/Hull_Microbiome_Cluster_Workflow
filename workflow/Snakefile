@@ -1,4 +1,54 @@
-# Main entrypoint of the workflow. 
-# Please follow the best practices: 
-# https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html,
-# in particular regarding the standardized folder structure mentioned there. 
+
+### A simple Kraken2 workflow for preprocessing, taxonomy assignment, and recentrifuge reports ###
+
+configfile: "config/config.yaml"
+
+### Define samples wildcard for input and output ###
+
+import pandas as pd
+import os
+import fileinput
+import glob
+
+metadata = config['metadata_file']
+
+sample_df = pd.read_table(metadata, header=0)
+
+sample_df['Path'] = None
+
+for row in range(len(sample_df)):
+    sample = sample_df.loc[row,'Sample_ID']
+    run = sample_df.loc[row,'Run']
+    path = str().join(run+'/'+sample)
+    sample_df.loc[row,'Path'] = path
+
+sample_df.to_csv(metadata, sep="\t", index=True)
+
+SAMPLES = list(sample_df['Sample_ID'])
+PATHS = list(sample_df['Path'])
+RUNS = list(sample_df['Run'])
+
+wildcard_constraints:
+  PATHS=".*\/.*"
+
+### Target rule ###
+
+rule all:
+    input:
+        "results/qc_reports/pre_qc_reports/stats_report.tsv",
+        "results/qc_reports/post_qc_reports/stats_report.tsv",
+        "results/recentrifuge/all_samples_kraken.html",
+	expand("results/kraken2/converted/{path}_kraken_table.tsv", path=PATHS),
+
+### Remaining rules for workflow ###
+
+# 1. Filter on size and quality
+include: "rules/fastp.smk"
+
+# 2. Assign taxonomy
+include: "rules/kraken2.smk"
+include: "rules/taxdump.smk" # taxonomy for creating recentrifuge reports
+include: "rules/biom.smk" # convert kraken2 results to tabular format for R
+
+# 3. Report creation
+report: "rules/report/workflow.rst"

@@ -1,0 +1,29 @@
+### Environment file for the microbiome metagenomic analysis workflow with Kraken2 ###
+
+name: kraken2_AO
+
+channels:
+  - conda-forge
+  - bioconda
+
+dependencies:
+  - snakemake>=6.6.1
+  - biopython
+  - python>=3.7
+  - pandas
+  - git
+  - wget
+  - unzip
+  - mamba
+
+# Sequence preprocessing
+  - fastp
+
+# Taxonomy assignment
+  - kraken2
+
+# Creating reports and figures
+  - seqkit
+  - recentrifuge
+  - biom-format
+  - kraken-biom # creates BIOM file from kraken output

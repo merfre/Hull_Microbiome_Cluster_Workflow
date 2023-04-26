@@ -1,0 +1,42 @@
+### Configuration file for the simple kraken2 workflow ###
+
+conda_envs: "workflow/envs/environment.yaml"
+
+input_directory: "resources/"
+
+metadata_file: "config/metadata_example.txt" # example: "config/metadata_example.txt"
+
+### Database locations ###
+# Place your reference databases in these locations or edit to specify the location
+
+kraken_db: "resources/databases/kraken2_std_database"
+
+### Parameters ###
+
+# For fastp
+qualified_quality_phred: "7" # quality value that a base is qualified - Default 15 means phred quality >=Q15 is qualified.
+unqualified_percent_limit: "40" # how many percents of bases are allowed to be unqualified (0~100) - Default 40 means 40%
+average_qual: "0" # if one read's average quality score <avg_qual, then this read/pair is discarded - Default 0 means no requirement (int [=0])
+min_length: "200" # minimum length requirement
+front_trim: "0" # number of bases to trim off the front of the read
+tail_trim: "0" # number of bases to trim off the tail of the read
+
+# For kraken2
+kraken_confidence: "0.1" #specify a threshold score in the [0,1] interval;
+# classifier then will adjust labels up the tree until the label's score (described below) meets or exceeds that threshold
+
+# For recentrifuge
+scoring_scheme: "KRAKEN" # different options to score the reads classified by Kraken
+# SHEL (Single Hit Equivalent Length): This is a score value in pair bases roughly equivalent to a single
+# hit to the database. In Kraken, this is calculated as the k-mer hit count of the top assignment, plus
+# the default k-mer length in Kraken (35)
+# KRAKEN:This scoring scheme is only available for this classifier. It divides the k-mer hit count of the
+# top assignment by the total k-mers in the read and multiplies the result by 100 to give a percentage of
+# coverage (the fraction of the read k-mers covered by k-mers belonging to the read final assignment).
+# This is the default scoring scheme for Kraken samples, and it supports the mixing of samples with
+# different read length.
+minscore: "10" #the minscore parameter works for the statistics selected as the score
+# SHEL or k-mer coverage.
+# for example, a minscore of 40 (indicated with the -y 40 option) for a
+# SHEL scoring would filter those reads not hitting 40 nt, while for KRAKEN scoring would filter those reads
+# with less than 40% k-mer coverage for the top assignment.

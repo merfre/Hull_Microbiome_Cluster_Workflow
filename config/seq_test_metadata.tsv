@@ -1,0 +1,5 @@
+Run	Date_sequenced	Barcode	Sample_ID	Date_extracted	Qubit_result	Notes
+ONT_bact1_test	14/04/22	barcode11	EC_test1	28/01/22	25.8	Sample from isolated e.coli colony
+ONT_bact1_test	14/04/22	barcode12a	SA_test1	28/01/22	20.7	Sample from isolated s. aureus colony
+ONT_skin1_adap2	02/06/22	barcode10	LF1A_adap_redo	03/05/22	50	Skin microbiome sample collected from left forearm position 1 for skin microbiome testing run 1, concentrated DNA extraction, and adaptive sequencing on higher quality flongle to remove human sequences
+ONT_skin1_adap2	02/06/22	barcode11	LF2A_adap_redo	03/05/22	60	Skin microbiome sample collected from left forearm position 2 for skin microbiome testing run 1, concentrated DNA extraction, and adaptive sequencing on higher quality flongle to remove human sequences
