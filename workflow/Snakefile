@@ -3,6 +3,17 @@
 
 configfile: "config/config.yaml"
 
+####### To do: #########
+# Remove all recentrifuge r/t data
+# clean up paths in readmes (and edit for clarity and info)
+# edit notes throughout scripts for workflow name etc.
+# fix gitignore for launching
+# add biom for multiple samples
+# add rgi (edit config readme?)
+# Add biom output to report?
+# make environment and test it all
+
+
 ### Define samples wildcard for input and output ###
 
 import pandas as pd

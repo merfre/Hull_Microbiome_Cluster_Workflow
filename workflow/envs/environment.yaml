@@ -1,6 +1,6 @@
 ### Environment file for the microbiome metagenomic analysis workflow with Kraken2 ###
 
-name: kraken2_AO
+name: mcw_ao
 
 channels:
   - conda-forge
