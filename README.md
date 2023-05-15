@@ -1,4 +1,4 @@
-# Snakemake workflow: Simple Kraken2 Workflow for AO Lab
+# Snakemake workflow: Microbiome Cluster Workflow for University of Hull
 
 A Snakemake workflow to analyse long read human microbiome data with steps for general quality control and taxonomy assignment using Kraken2.
 
@@ -14,7 +14,7 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 
 If this is the first time you are using this workflow you must build the environment that it will be running in.
 
-While in the parent directory "gs/MinIONMicrobiome/Kraken2_Workflow_AO/" run this code to build the conda environment (this will take some time):
+While in the parent directory "~/Microbiome_Cluster_Workflow/" run this code to build the conda environment (this will take some time):
 
     conda env create -f workflow/envs/environment.yaml
 
@@ -28,7 +28,7 @@ First, always ensure when running workflows on Viper to either submit a batch jo
 
 When you are logged onto the high performance computer activate the environment:
 
-    conda activate kraken2_AO
+    conda activate MCW
 
 ### Step 2: Prepare metadata
 
@@ -38,21 +38,21 @@ One column must be labelled "Run", which contains the name of the run that must 
 
 An example of the minimum metadata requirement and type of file necessary can be found here:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO/config/metadata_example.txt
+    ./config/metadata_example.txt
 
 An example of metadata best practice with a fully detailed file can be found here:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO/config/seq_test_metadata.tsv
+    ./config/seq_test_metadata.tsv
 
 Finally, please place your metadata file in the config directory:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO/config
+    ./config/
 
 ### Step 3: Configure workflow
 
 Once your metadata file is prepared, you must point the workflow to it by editing the configuration file, found here:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO/config/config.yaml
+    ./config/config.yaml
 
 In this file you will find a line beginning with "metadata_file", please edit the file name in the path listed to the name of your desired metadata file.
 
@@ -64,7 +64,7 @@ Next, in this same configuration file, edit the parameters for the software to y
 
 Be sure to follow instructions in the Kraken2 manual to create your database and then place it (the whole database directory) into this directory:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO/resources/databases
+    ./resources/databases/
 
 Then change the database name in the configuration file by editing this line:
 
@@ -74,29 +74,29 @@ Then change the database name in the configuration file by editing this line:
 
 Once you have configured the workflow, be sure to move your data into the resources directory:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO/resources
+    ./resources
 
 This must be the data you wish analyze with .fastq files, which are named by their sample IDs in the metadata file, contained in folder(s) with the same name as the corresponding run(s) in the metadata file. An example data directory for "metadata_example.txt" can be found here:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO/resources/s_test_data
+    ./resources/s_test_data
 
 ### Step 5: Execute workflow
 
 Finally, be sure to navigate back to the main workflow directory:
 
-    /home/gs/MinIONMicrobiome/Kraken2_Workflow_AO
+    ~/Microbiome_Cluster_Workflow/
 
 Execute the workflow locally via
 
     snakemake --printshellcmds --use-conda --cores 10
 
-If the workflow encounters any errors it will stop running and exit. Be sure to look through the output produced for messages on what cause the error and either make the necessary adjustments or copy the text into a file for Merideth.
+If the workflow encounters any errors it will stop running and exit. Be sure to look through the output produced for messages on what cause the error and either make the necessary adjustments or copy the text into a file for @merfre (Merideth Freiheit).
 
 ### Step 6: Investigate results
 
 After successful execution, you can create a self-contained interactive HTML report with all results via:
 
-    snakemake --report report.html
+    snakemake --report mcw_final_report.html
 
 This report can, e.g., be forwarded to your collaborators.
 An example (using some trivial test data) can be seen [here](https://cdn.rawgit.com/snakemake-workflows/rna-seq-kallisto-sleuth/master/.test/report.html).

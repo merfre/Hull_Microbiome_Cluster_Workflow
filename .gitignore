@@ -4,3 +4,8 @@ resources/*
 logs/**
 .snakemake
 .snakemake/**
+config/*
+!config/config.yaml
+!config/metadata_example.txt
+!config/README.md
+!config/seq_test_metadata.tsv

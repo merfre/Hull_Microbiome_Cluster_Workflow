@@ -1,17 +1,12 @@
 
-### A simple Kraken2 workflow for preprocessing, taxonomy assignment, and recentrifuge reports ###
+### A simple Kraken2 workflow for preprocessing, taxonomy assignment, and biom conversion ###
 
 configfile: "config/config.yaml"
 
 ####### To do: #########
-# Remove all recentrifuge r/t data
-# clean up paths in readmes (and edit for clarity and info)
-# edit notes throughout scripts for workflow name etc.
-# fix gitignore for launching
-# add biom for multiple samples
 # add rgi (edit config readme?)
-# Add biom output to report?
 # make environment and test it all
+# set up test directory with s test data (and change readme)
 
 
 ### Define samples wildcard for input and output ###
@@ -48,18 +43,18 @@ rule all:
     input:
         "results/qc_reports/pre_qc_reports/stats_report.tsv",
         "results/qc_reports/post_qc_reports/stats_report.tsv",
-        "results/recentrifuge/all_samples_kraken.html",
-	expand("results/kraken2/converted/{path}_kraken_table.tsv", path=PATHS),
+        "results/biom/kraken2_allsamples.tsv"
 
 ### Remaining rules for workflow ###
 
-# 1. Filter on size and quality
+# 1. Filter based on size and quality
 include: "rules/fastp.smk"
 
 # 2. Assign taxonomy
 include: "rules/kraken2.smk"
-include: "rules/taxdump.smk" # taxonomy for creating recentrifuge reports
+
+# 3. Convert to and from biom
 include: "rules/biom.smk" # convert kraken2 results to tabular format for R
 
-# 3. Report creation
+# 4. Report creation
 report: "rules/report/workflow.rst"

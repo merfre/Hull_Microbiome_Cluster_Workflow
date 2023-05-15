@@ -1,6 +1,6 @@
 ### Environment file for the microbiome metagenomic analysis workflow with Kraken2 ###
 
-name: mcw_ao
+name: MCW
 
 channels:
   - conda-forge
@@ -24,6 +24,5 @@ dependencies:
 
 # Creating reports and figures
   - seqkit
-  - recentrifuge
   - biom-format
   - kraken-biom # creates BIOM file from kraken output

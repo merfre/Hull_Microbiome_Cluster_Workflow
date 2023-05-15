@@ -8,9 +8,9 @@ rule kraken_to_biom:
   #conda:
   #"../workflow/envs/environment.yaml"
   input:
-    "results/kraken2/{PATHS}_kraken_report.txt"
+    expand("results/kraken2/{path}_kraken_report.txt", path=PATHS)
   output:
-    "results/biom/{PATHS}.biom"
+    "results/biom/kraken2_allsamples.biom"
   shell:
     "kraken-biom {input} --fmt hdf5 -o {output}"
     # --fmt indicates the output format desired, --max is assigned reads will be recorded only if they are at or below max rank, Default: O
@@ -22,9 +22,9 @@ rule biom_to_tsv:
   #conda:
   #"../workflow/envs/environment.yaml"
   input:
-    "results/biom/{PATHS}.biom"
+    "results/biom/kraken2_allsamples.biom"
   output:
-    "results/kraken2/converted/{PATHS}_kraken_table.tsv"
+    report("results/biom/kraken2_allsamples.tsv", caption="report/kraken2_allsamples.rst", category="Kraken2")
   shell:
     """
     biom convert -i {input} -o {output} --to-tsv --header-key taxonomy;
@@ -34,5 +34,5 @@ rule biom_to_tsv:
     sed -i 's/; s__/ /g' {output}; # to form the entire species name
     sed -i 's/; /\t/g' {output}; # to separate each taxonomy level into its own column
     sed -i 's/[kpcofg]__//g' {output} # to remove the taxonomy level indicators
-    sed -i 's/taxonomy/kingdom\tphyla\tclass\torder\tfamily\tgenus_species/g' {output} # add column names for all tax levels 
+    sed -i 's/taxonomy/kingdom\tphyla\tclass\torder\tfamily\tgenus_species/g' {output} # add column names for all tax levels
     """

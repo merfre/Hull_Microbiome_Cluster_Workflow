@@ -1,4 +1,4 @@
-### Configuration file for the simple kraken2 workflow ###
+### Configuration file for the Microbiome Cluster Workflow ###
 
 conda_envs: "workflow/envs/environment.yaml"
 
