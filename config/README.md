@@ -1,4 +1,4 @@
-# Microbiome Cluster Workflow Configuration
+# Hull Microbiome Cluster Workflow Configuration
 
 In this directory 'config' is the main configuration file 'config.yaml' which is used for specifying the samples to analyse and what parameters to use throughout the workflow.
 

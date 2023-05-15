@@ -1,6 +1,6 @@
-### Environment file for the microbiome metagenomic analysis workflow with Kraken2 ###
+### Environment file for the Hull Microbiome Cluster Workflow with fastp, Kraken2, and RGI ###
 
-name: MCW
+name: HMCW
 
 channels:
   - conda-forge
@@ -21,6 +21,9 @@ dependencies:
 
 # Taxonomy assignment
   - kraken2
+
+# ARG identification
+  - rgi
 
 # Creating reports and figures
   - seqkit

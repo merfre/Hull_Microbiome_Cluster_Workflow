@@ -1,4 +1,4 @@
-### Configuration file for the Microbiome Cluster Workflow ###
+### Configuration file for the Hull Microbiome Cluster Workflow ###
 
 conda_envs: "workflow/envs/environment.yaml"
 

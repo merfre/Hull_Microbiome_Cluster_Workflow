@@ -1,5 +1,5 @@
 
-### A simple Kraken2 workflow for preprocessing, taxonomy assignment, and biom conversion ###
+### Analysis workflow for preprocessing, taxonomy assignment, and antimicrobial resistance identification - for Hull Microbiome Cluster ###
 
 configfile: "config/config.yaml"
 
@@ -7,7 +7,6 @@ configfile: "config/config.yaml"
 # add rgi (edit config readme?)
 # make environment and test it all
 # set up test directory with s test data (and change readme)
-
 
 ### Define samples wildcard for input and output ###
 
@@ -35,7 +34,9 @@ PATHS = list(sample_df['Path'])
 RUNS = list(sample_df['Run'])
 
 wildcard_constraints:
-  PATHS=".*\/.*"
+  PATHS=".*\/.*",
+  SAMPLES = "[^\/]+",
+  RUNS = "[^\/]+"
 
 ### Target rule ###
 
@@ -56,5 +57,8 @@ include: "rules/kraken2.smk"
 # 3. Convert to and from biom
 include: "rules/biom.smk" # convert kraken2 results to tabular format for R
 
-# 4. Report creation
+# 4. Identify ARGs with CARD-RGI
+#include: "rules/card_rgi.smk"
+
+# 5. Report creation
 report: "rules/report/workflow.rst"

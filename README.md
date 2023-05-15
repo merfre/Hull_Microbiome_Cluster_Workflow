@@ -28,7 +28,7 @@ First, always ensure when running workflows on Viper to either submit a batch jo
 
 When you are logged onto the high performance computer activate the environment:
 
-    conda activate MCW
+    conda activate HMCW
 
 ### Step 2: Prepare metadata
 
@@ -60,6 +60,10 @@ In this file you will find a line beginning with "metadata_file", please edit th
 
 Next, in this same configuration file, edit the parameters for the software to your desired thresholds. Each parameter option includes an explanation of the parameter, default options, and options for adjustment.
 
+Full instructions for configuring this workflow can be found here:
+
+    ./config/README.md
+
 *If you wish to change the Kraken2 database used:*
 
 Be sure to follow instructions in the Kraken2 manual to create your database and then place it (the whole database directory) into this directory:
@@ -79,6 +83,10 @@ Once you have configured the workflow, be sure to move your data into the resour
 This must be the data you wish analyze with .fastq files, which are named by their sample IDs in the metadata file, contained in folder(s) with the same name as the corresponding run(s) in the metadata file. An example data directory for "metadata_example.txt" can be found here:
 
     ./resources/s_test_data
+
+Full instructions to set up the required resources for this workflow can be found here:
+
+    ./resources/README.md
 
 ### Step 5: Execute workflow
 
