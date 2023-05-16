@@ -5,16 +5,19 @@ In this directory 'config' is the main configuration file 'config.yaml' which is
 
 ## Reading the configuration file
 
-This file is split into three sections:
+This file is split into four sections:
 
 
 1. The first is at the top of the file and contains general information for the workflow, including the location of the desired libraries, the metadata file for the samples, and the software environment to use for analysis.
 
 
-2. The next section is below the first and labeled 'Database locations'. In this section the location of the reference databases for analysis is specified. For this workflow, there is one reference required, a  Kraken2 database for taxonomy assignment.
+2. The second section below the general information is for toggling analysis options for the run and is labelled 'Analysis options'. Here, additional forms of analysis can be added or removed for an analysis run by putting 'True' or 'False' after the name of the analysis. For instance, if you would like to include ARG identification then write 'True' after the prompt 'include_rgi'.
 
 
-3. The final section, located below the second, is titled 'Parameters'. This section contains the list of adjustable parameters used in this workflow. Each parameter has a title, a value assigned to it, and a description. The parameters are organized by the software that uses them. For instance, fastp is used for initial quality control and has six adjustable parameters for its performance.
+3. The next section is below the second and labeled 'Database locations'. In this section the location of the reference databases for analysis is specified. For this workflow, there is one reference required, a  Kraken2 database for taxonomy assignment.
+
+
+4. The final section, located below the third, is titled 'Parameters'. This section contains the list of adjustable parameters used in this workflow. Each parameter has a title, a value assigned to it, and a description. The parameters are organized by the software that uses them. For instance, fastp is used for initial quality control and has six adjustable parameters for its performance.
 
 
 ## Setting up the configuration file

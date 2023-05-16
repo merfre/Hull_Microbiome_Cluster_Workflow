@@ -4,7 +4,7 @@
 configfile: "config/config.yaml"
 
 ####### To do: #########
-# add rgi (edit config readme?)
+# add rgi
 # make environment and test it all
 # set up test directory with s test data (and change readme)
 
@@ -38,13 +38,22 @@ wildcard_constraints:
   SAMPLES = "[^\/]+",
   RUNS = "[^\/]+"
 
+### Optional analyses ###
+
+optional_outputs = list()
+
+# Resistance gene identification option
+if config['include_rgi'] == True:
+    optional_outputs.extend([""])
+
 ### Target rule ###
 
 rule all:
     input:
         "results/qc_reports/pre_qc_reports/stats_report.tsv",
         "results/qc_reports/post_qc_reports/stats_report.tsv",
-        "results/biom/kraken2_allsamples.tsv"
+        "results/biom/kraken2_allsamples.tsv",
+        optional_outputs = optional_outputs
 
 ### Remaining rules for workflow ###
 
