@@ -3,10 +3,6 @@
 
 configfile: "config/config.yaml"
 
-####### To do: #########
-# make environment and test it all
-# set up test directory with s test data (and change readme)
-
 ### Define samples wildcard for input and output ###
 
 import pandas as pd

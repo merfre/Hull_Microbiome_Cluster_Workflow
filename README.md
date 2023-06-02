@@ -34,7 +34,7 @@ When you are logged onto the high performance computer activate the environment:
 
 To direct the workflow to your samples a metadata file is required. Likely your current method for tracking metadata will suffice; however, the metadata provided to this workflow must be a tab delimited table with each row as a sample and at least 2 specific columns.
 
-One column must be labelled "Run", which contains the name of the run that must be the same as the name of the directory containing your samples, and the other must be labelled "Sample_ID", which contains the names of samples you would like to analyze and must be the same as the file name (excluding the file extension). Multiple runs can be analyzed at once my simply listing all their samples in the same metadata file.
+One column must be labelled "Run", which contains the name of the run that must be the same as the name of the directory or library containing your samples, and the other must be labelled "Sample_ID", which contains the names of samples you would like to analyze and must be the same as the file name (excluding the file extension). Multiple runs can be analyzed at once my simply listing all the runs and corresponding samples in the same metadata file.
 
 An example of the minimum metadata requirement and type of file necessary can be found here:
 
