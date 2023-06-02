@@ -4,7 +4,6 @@
 configfile: "config/config.yaml"
 
 ####### To do: #########
-# add rgi
 # make environment and test it all
 # set up test directory with s test data (and change readme)
 
@@ -38,22 +37,13 @@ wildcard_constraints:
   SAMPLES = "[^\/]+",
   RUNS = "[^\/]+"
 
-### Optional analyses ###
-
-optional_outputs = list()
-
-# Resistance gene identification option
-if config['include_rgi'] == True:
-    optional_outputs.extend([""])
-
 ### Target rule ###
 
 rule all:
     input:
         "results/qc_reports/pre_qc_reports/stats_report.tsv",
         "results/qc_reports/post_qc_reports/stats_report.tsv",
-        "results/biom/kraken2_allsamples.tsv",
-        optional_outputs = optional_outputs
+        "results/biom/kraken2_allsamples.tsv"
 
 ### Remaining rules for workflow ###
 
@@ -66,8 +56,5 @@ include: "rules/kraken2.smk"
 # 3. Convert to and from biom
 include: "rules/biom.smk" # convert kraken2 results to tabular format for R
 
-# 4. Identify ARGs with CARD-RGI
-#include: "rules/card_rgi.smk"
-
-# 5. Report creation
+# 4. Report creation
 report: "rules/report/workflow.rst"

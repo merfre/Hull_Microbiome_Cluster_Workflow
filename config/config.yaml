@@ -6,12 +6,6 @@ input_directory: "resources/"
 
 metadata_file: "config/metadata_example.txt" # example: "config/metadata_example.txt"
 
-### Analysis options ###
-
-## Resistance gene identification with CARD
-# indicate with True/False whether to include ARG identification
-include_rgi: False
-
 ### Database locations ###
 # Place your reference databases in these locations or edit to specify the location
 

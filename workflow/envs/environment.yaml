@@ -22,9 +22,6 @@ dependencies:
 # Taxonomy assignment
   - kraken2
 
-# ARG identification
-  - rgi
-
 # Creating reports and figures
   - seqkit
   - biom-format

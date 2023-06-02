@@ -104,7 +104,7 @@ If the workflow encounters any errors it will stop running and exit. Be sure to 
 
 After successful execution, you can create a self-contained interactive HTML report with all results via:
 
-    snakemake --report mcw_final_report.html
+    snakemake --report hmcw_final_report.html
 
 This report can, e.g., be forwarded to your collaborators.
 An example (using some trivial test data) can be seen [here](https://cdn.rawgit.com/snakemake-workflows/rna-seq-kallisto-sleuth/master/.test/report.html).
