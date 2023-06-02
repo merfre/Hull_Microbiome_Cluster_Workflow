@@ -41,8 +41,8 @@ wildcard_constraints:
 
 rule all:
     input:
-        "results/qc_reports/pre_qc_reports/stats_report.tsv",
-        "results/qc_reports/post_qc_reports/stats_report.tsv",
+        "results/qc_reports/pre_qc_report.tsv",
+        "results/qc_reports/post_qc_report.tsv",
         "results/biom/kraken2_allsamples.tsv"
 
 ### Remaining rules for workflow ###
