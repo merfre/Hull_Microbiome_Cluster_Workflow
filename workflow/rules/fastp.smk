@@ -10,7 +10,7 @@ rule preqc_stats:
   input:
     fastq_file = expand("resources/{path}.fastq", path=PATHS)
   output:
-    report = report("results/qc_reports/pre_qc_reports/stats_report.tsv", caption="report/pre_qc_reports.rst", category="QC reports")
+    report = report("results/qc_reports/pre_qc_report.tsv", caption="report/pre_qc_reports.rst", category="QC reports")
   shell:
     "seqkit stats {input.fastq_file} -a -T > {output.report}"
     # flag -a denotes all statistics, including quartiles of seq length, sum_gap, N50
@@ -55,7 +55,7 @@ rule postqc_stats:
   input:
     fastq_file = expand("results/preprocessing/trimmed_filtered/{path}_trimmed_filtered.fastq", path=PATHS)
   output:
-    report = report("results/qc_reports/post_qc_reports/stats_report.tsv", caption="report/post_qc_reports.rst", category="QC reports")
+    report = report("results/qc_reports/post_qc_report.tsv", caption="report/post_qc_reports.rst", category="QC reports")
   shell:
     "seqkit stats {input.fastq_file} -a -T > {output.report}"
     # flag -a denotes all statistics, including quartiles of seq length, sum_gap, N50
