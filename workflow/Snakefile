@@ -5,10 +5,14 @@ configfile: "config/config.yaml"
 
 ### Define samples wildcard for input and output ###
 
+print("Importing Python modules...")
+
 import pandas as pd
 import os
 import fileinput
 import glob
+
+print("Loading metadata and creating wildcards...")
 
 metadata = config['metadata_file']
 
@@ -34,6 +38,8 @@ wildcard_constraints:
   RUNS = "[^\/]+"
 
 ### Target rule ###
+
+print("Running Hull Microbiome Cluster Workflow...")
 
 rule all:
     input:
