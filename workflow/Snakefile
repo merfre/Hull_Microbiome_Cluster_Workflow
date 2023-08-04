@@ -1,4 +1,3 @@
-
 ### Analysis workflow for preprocessing, taxonomy assignment, and antimicrobial resistance identification - for Hull Microbiome Cluster ###
 
 configfile: "config/config.yaml"
@@ -45,7 +44,8 @@ rule all:
     input:
         "results/qc_reports/pre_qc_report.tsv",
         "results/qc_reports/post_qc_report.tsv",
-        "results/biom/kraken2_allsamples.tsv"
+        "results/biom/kraken2_allsamples.tsv",
+        expand("results/biom/{path}_kraken2.tsv", path=PATHS)
 
 ### Remaining rules for workflow ###
 
@@ -56,7 +56,8 @@ include: "rules/fastp.smk"
 include: "rules/kraken2.smk"
 
 # 3. Convert to and from biom
-include: "rules/biom.smk" # convert kraken2 results to tabular format for R
+include: "rules/biom_all_samples.smk" # convert kraken2 results to tabular format for R for all samples
+include: "rules/biom_individual.smk" # convert kraken2 results to tabular format for R for individual samples
 
 # 4. Report creation
 report: "rules/report/workflow.rst"
