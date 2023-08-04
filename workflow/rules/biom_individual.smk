@@ -4,13 +4,13 @@ configfile: "config/config.yaml"
 
 ### Convert kraken reports to biom format
 
-rule kraken_to_biom:
+rule kraken_to_biom_individual:
   #conda:
   #"../workflow/envs/environment.yaml"
   input:
-    expand("results/kraken2/{path}_kraken_report.txt", path=PATHS)
+    "results/kraken2/{PATHS}_kraken_report.txt"
   output:
-    "results/biom/kraken2_allsamples.biom"
+    "results/biom/{PATHS}_kraken2.biom"
   shell:
     "kraken-biom {input} --fmt hdf5 -o {output}"
     # --fmt indicates the output format desired, --max is assigned reads will be recorded only if they are at or below max rank, Default: O
@@ -18,13 +18,13 @@ rule kraken_to_biom:
 
 ### Convert kraken2 biom files to tsv and modify for analysis in R
 
-rule biom_to_tsv:
+rule biom_to_tsv_individual:
   #conda:
   #"../workflow/envs/environment.yaml"
   input:
-    "results/biom/kraken2_allsamples.biom"
+    "results/biom/{PATHS}_kraken2.biom"
   output:
-    report("results/biom/kraken2_allsamples.tsv", caption="report/kraken2_allsamples.rst", category="Kraken2")
+    report("results/biom/{PATHS}_kraken2.tsv", caption="report/kraken2_individual.rst", category="Kraken2")
   shell:
     """
     biom convert -i {input} -o {output} --to-tsv --header-key taxonomy;
