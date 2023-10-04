@@ -6,6 +6,12 @@ input_directory: "resources/"
 
 metadata_file: "config/metadata_example.txt" # example: "config/metadata_example.txt"
 
+### Analysis options ###
+
+## Contig assembly and assessment
+# indicate with True/False whether to include assembly with metaflye
+include_assembly: True
+
 ### Database locations ###
 # Place your reference databases in these locations or edit to specify the location
 
@@ -20,6 +26,13 @@ average_qual: "0" # if one read's average quality score <avg_qual, then this rea
 min_length: "200" # minimum length requirement
 front_trim: "0" # number of bases to trim off the front of the read
 tail_trim: "0" # number of bases to trim off the tail of the read
+
+# For metaflye
+read_type: "--nano-raw"
+# --nano-corr: is ONT reads that were corrected with other methods (<3% error)
+# --nano-raw: ONT regular reads, pre-Guppy5 (<20% error)
+minimum_overlap: "1000"
+# minimum overlap length for two reads to be considered overlapping, Typical value is 3k-10k (and down to 1k for datasets with shorter read length)
 
 # For kraken2
 kraken_confidence: "0.1" #specify a threshold score in the [0,1] interval;

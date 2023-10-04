@@ -36,6 +36,14 @@ wildcard_constraints:
   SAMPLES = "[^\/]+",
   RUNS = "[^\/]+"
 
+### Optional analyses ###
+
+optional_outputs = list()
+
+# Database creation option
+if config['include_assembly'] == True:
+    optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv"])
+
 ### Target rule ###
 
 print("Running Hull Microbiome Cluster Workflow...")
@@ -45,7 +53,8 @@ rule all:
         "results/qc_reports/pre_qc_report.tsv",
         "results/qc_reports/post_qc_report.tsv",
         "results/biom/kraken2_allsamples.tsv",
-        expand("results/biom/{path}_kraken2.tsv", path=PATHS)
+        expand("results/biom/{path}_kraken2.tsv", path=PATHS),
+        optional_outputs = optional_outputs,
 
 ### Remaining rules for workflow ###
 
@@ -59,5 +68,15 @@ include: "rules/kraken2.smk"
 include: "rules/biom_all_samples.smk" # convert kraken2 results to tabular format for R for all samples
 include: "rules/biom_individual.smk" # convert kraken2 results to tabular format for R for individual samples
 
-# 4. Report creation
+# 4. Read assembly and assessment
+
+if config['include_assembly'] == True:
+
+    include: "rules/metaflye.smk"
+
+    print("Read assembly will be performed by metaFlye\n")
+else:
+    print("metaFlye for read assembly will not be included\n")
+
+# 5. Report creation
 report: "rules/report/workflow.rst"

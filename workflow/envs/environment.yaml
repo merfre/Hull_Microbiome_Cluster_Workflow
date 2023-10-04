@@ -17,12 +17,13 @@ dependencies:
   - mamba
 
 # Sequence preprocessing
-  - fastp
+  - fastp # read QC
+  - flye # assembly
 
 # Taxonomy assignment
-  - kraken2
+  - kraken2 # taxonomy assignment
 
 # Creating reports and figures
-  - seqkit
-  - biom-format
+  - seqkit # read statistics throughout workflow
+  - biom-format # file format conversion for analysis
   - kraken-biom # creates BIOM file from kraken output
