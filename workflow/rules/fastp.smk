@@ -25,7 +25,7 @@ rule fastp:
     fastq_file = "resources/{PATHS}.fastq"
   output:
     reads_trimmed = "results/preprocessing/trimmed_filtered/{PATHS}_trimmed_filtered.fastq",
-    html = report("results/qc_reports/fastp_reports/{PATHS}.html", caption="report/fastp_reports.rst", category="QC reports")
+    html = report("results/qc_reports/fastp_reports/{PATHS}.html", caption="report/fastp_reports.rst", category="QC reports", subcategory="Fastp")
   params:
     qualified_quality_phred = config['qualified_quality_phred'],
     unqualified_percent_limit = config['unqualified_percent_limit'],
