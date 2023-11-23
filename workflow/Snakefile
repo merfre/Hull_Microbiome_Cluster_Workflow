@@ -2,6 +2,19 @@
 
 configfile: "config/config.yaml"
 
+###### To do:
+# Remove host option
+# Split into either assemble or don't - not both
+# Assembly assessment - quast?
+# Kraken2 for contigs and biom! 
+# Remove contaminents script for snehal
+# Downstream analyses scripts - just general from mmcaw
+#     diversity scores, alpha and beta, tax barplot, species 
+#     heatmap?, - for both unassembled and assembled reads?
+# Add messages and remove printing??
+# Add logs to rules 
+# Test directory for repo
+
 ### Define samples wildcard for input and output ###
 
 print("Importing Python modules...")
