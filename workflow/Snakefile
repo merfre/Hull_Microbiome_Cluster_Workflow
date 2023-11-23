@@ -3,7 +3,6 @@
 configfile: "config/config.yaml"
 
 ###### To do:
-# *Add remove host option
 # *Split into either assemble or don't - not both
 # Assembly assessment - quast?
 # Kraken2 for contigs and biom! 
@@ -54,9 +53,13 @@ wildcard_constraints:
 
 optional_outputs = list()
 
-# Database creation option
+# Assembly option
 if config['include_assembly'] == True:
-    optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv"])
+  optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv"])
+
+# Host removal option
+if config['include_host_removal'] == True:
+  optional_outputs.extend(["results/qc_reports/hostrm_qc_report.tsv"])
 
 ### Target rule ###
 
@@ -75,14 +78,23 @@ rule all:
 # 1. Filter based on size and quality
 include: "rules/fastp.smk"
 
-# 2. Assign taxonomy
+# 2. Filter out host sequences
+if config['include_host_removal'] == True:
+
+  include: "rules/removing_host_seq.smk"
+
+  print("Host contamination removal will be performed using minimap2 and samtools\n")
+else:
+  print("Host sequences will not be removed\n")
+
+# 3. Assign taxonomy
 include: "rules/kraken2.smk"
 
-# 3. Convert to and from biom
+# 4. Convert to and from biom
 include: "rules/biom_all_samples.smk" # convert kraken2 results to tabular format for R for all samples
 include: "rules/biom_individual.smk" # convert kraken2 results to tabular format for R for individual samples
 
-# 4. Read assembly and assessment
+# 5. Read assembly and assessment
 
 if config['include_assembly'] == True:
 
@@ -92,5 +104,5 @@ if config['include_assembly'] == True:
 else:
     print("metaFlye for read assembly will not be included\n")
 
-# 5. Report creation
+# 6. Report creation
 report: "rules/report/workflow.rst"

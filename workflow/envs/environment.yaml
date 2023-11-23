@@ -19,6 +19,8 @@ dependencies:
 # Sequence preprocessing
   - fastp # read QC
   - flye # assembly
+  - minimap2 # host removal
+  - samtools # host removal
 
 # Taxonomy assignment
   - kraken2 # taxonomy assignment
