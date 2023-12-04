@@ -3,9 +3,7 @@
 configfile: "config/config.yaml"
 
 ###### To do:
-# 1. fix host removal option (maybe fasta conversion option??)
 # 3. Assembly assessment - metaquast?
-# 2. Kraken2 for contigs and biom! 
 # 4. *Downstream analyses scripts - just general from mmcaw
 #     diversity scores, alpha and beta, tax barplot, species 
 #     heatmap?
@@ -77,14 +75,18 @@ rule all:
 # 1. Filter based on size and quality
 include: "rules/fastp.smk"
 
-# 2. Filter out host sequences
+# 2. Convert files to fasta with or without host sequences removed
 if config['include_host_removal'] == True:
 
   include: "rules/removing_host_seq.smk"
 
+  include: "rules/fasta_conversion_hostrm.smk"
+
   print("Host contamination removal will be performed using minimap2 and samtools\n")
 
 else:
+
+  include: "rules/fasta_conversion_hostinc.smk"
 
   print("Host sequences will not be removed\n")
 
@@ -101,7 +103,7 @@ if config['include_assembly'] == True:
     include: "rules/biom_all_samples_assem.smk" # convert kraken2 results to tabular format for R for all samples
 
     print("Read assembly will be performed by metaFlye and analyses will be performed as normal\n")
-    
+
 else:
     
     include: "rules/kraken2_unassem.smk"

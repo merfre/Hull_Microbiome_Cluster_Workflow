@@ -2,25 +2,13 @@
 
 configfile: "config/config.yaml"
 
-### Convert samples from fastq to fasta with seqkit
-
-rule fasta_conversion:
-  #conda:
-    #"../workflow/envs/environment.yaml"
-  input:
-    "results/preprocessing/trimmed_filtered/{PATHS}_trimmed_filtered.fastq"
-  output:
-    "results/preprocessing/fasta_converted/{PATHS}_trimmed_filtered.fasta"
-  shell:
-    "seqkit fq2fa {input} -o {output}"
-
 ### Assemble reads into contigs using metaflye
 
 rule metaflye:
   #conda:
     #"../workflow/envs/environment.yaml"
   input:
-    "results/preprocessing/fasta_converted/{PATHS}_trimmed_filtered.fasta"
+    "results/preprocessing/fasta_converted/{PATHS}_cleaned.fasta"
   output:
     directory = directory("results/preprocessing/flye_results/{PATHS}"),
     fasta = "results/preprocessing/flye_results/{PATHS}/assembly.fasta"

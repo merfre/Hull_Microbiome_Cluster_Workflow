@@ -9,7 +9,7 @@ metadata_file: "config/metadata_example.txt" # example: "config/metadata_example
 ### Analysis options ###
 
 ## Contig assembly and assessment
-# indicate with True/False whether to include assembly with metaflye
+# indicate with True/False whether to assemble with metaflye
 include_assembly: True
 
 ## Host contamination removal

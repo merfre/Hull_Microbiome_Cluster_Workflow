@@ -8,7 +8,7 @@ rule kraken2_unassem:
   #conda:
     #"../workflow/envs/environment.yaml"
   input:
-    "results/preprocessing/trimmed_filtered/{PATHS}_trimmed_filtered.fastq"
+    "results/preprocessing/fasta_converted/{PATHS}_cleaned.fasta"
   output:
     report = "results/kraken2/{PATHS}_unassem_kraken_report.txt",
     kraken = "results/kraken2/{PATHS}_unassem_kraken.krk"
