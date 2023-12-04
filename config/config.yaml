@@ -21,7 +21,7 @@ include_host_removal: True
 
 kraken_db: "resources/databases/kraken2_std_database"
 
-filtering_reference: "resources/databases/host_reference/"
+filtering_reference: "/home/639893/Adaptive_Sequencing_Analysis_Workflow/resources/databases/filtering_reference/GCF_000001405.40_GRCh38.p14_genomic.fna"
 
 ### Parameters ###
 
