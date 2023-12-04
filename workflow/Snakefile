@@ -3,17 +3,15 @@
 configfile: "config/config.yaml"
 
 ###### To do:
-# *Split into either assemble or don't - not both
-# Assembly assessment - quast?
-# Kraken2 for contigs and biom! 
-# *Remove contaminents script for snehal
-# *Downstream analyses scripts - just general from mmcaw
+# 1. fix host removal option (maybe fasta conversion option??)
+# 3. Assembly assessment - metaquast?
+# 2. Kraken2 for contigs and biom! 
+# 4. *Downstream analyses scripts - just general from mmcaw
 #     diversity scores, alpha and beta, tax barplot, species 
 #     heatmap?
-# Add messages and remove printing??
-# Add logs to rules 
-# Test directory for repo
-# * = new analysis option
+# 5. Add messages and remove printing??
+# 6. Add logs to rules 
+# 7. Test directory for repo
 
 ### Define samples wildcard for input and output ###
 
@@ -53,13 +51,16 @@ wildcard_constraints:
 
 optional_outputs = list()
 
-# Assembly option
-if config['include_assembly'] == True:
-  optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv"])
-
 # Host removal option
 if config['include_host_removal'] == True:
   optional_outputs.extend(["results/qc_reports/hostrm_qc_report.tsv"])
+
+# Assembly option
+if config['include_assembly'] == True:
+  optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv", "results/biom/kraken2_assem_allsamples.tsv", 
+  expand("results/biom/{path}_assem_kraken2.tsv", path=PATHS)])
+else:
+  optional_outputs.extend(["results/biom/kraken2_unassem_allsamples.tsv", expand("results/biom/{path}_unassem_kraken2.tsv", path=PATHS)])
 
 ### Target rule ###
 
@@ -69,8 +70,6 @@ rule all:
     input:
         "results/qc_reports/pre_qc_report.tsv",
         "results/qc_reports/post_qc_report.tsv",
-        "results/biom/kraken2_allsamples.tsv",
-        expand("results/biom/{path}_kraken2.tsv", path=PATHS),
         optional_outputs = optional_outputs,
 
 ### Remaining rules for workflow ###
@@ -84,25 +83,34 @@ if config['include_host_removal'] == True:
   include: "rules/removing_host_seq.smk"
 
   print("Host contamination removal will be performed using minimap2 and samtools\n")
+
 else:
+
   print("Host sequences will not be removed\n")
 
-# 3. Assign taxonomy
-include: "rules/kraken2.smk"
-
-# 4. Convert to and from biom
-include: "rules/biom_all_samples.smk" # convert kraken2 results to tabular format for R for all samples
-include: "rules/biom_individual.smk" # convert kraken2 results to tabular format for R for individual samples
-
-# 5. Read assembly and assessment
+# 3. Assign taxonomy and convert to/from biom with or without read assembly
 
 if config['include_assembly'] == True:
 
     include: "rules/metaflye.smk"
 
-    print("Read assembly will be performed by metaFlye\n")
-else:
-    print("metaFlye for read assembly will not be included\n")
+    include: "rules/kraken2_assem.smk"
 
-# 6. Report creation
+    include: "rules/biom_individual_assem.smk" # convert kraken2 results to tabular format for R for individual samples
+
+    include: "rules/biom_all_samples_assem.smk" # convert kraken2 results to tabular format for R for all samples
+
+    print("Read assembly will be performed by metaFlye and analyses will be performed as normal\n")
+    
+else:
+    
+    include: "rules/kraken2_unassem.smk"
+
+    include: "rules/biom_individual_unassem.smk" # convert kraken2 results to tabular format for R for individual samples
+
+    include: "rules/biom_all_samples_unassem.smk" # convert kraken2 results to tabular format for R for all samples
+
+    print("metaFlye for read assembly will not be included and analyses will be performed as normal\n")
+
+# 4. Report creation
 report: "rules/report/workflow.rst"

@@ -1,17 +1,17 @@
-### Rules to assign taxonomy using Kraken2 ###
+### Rules to assign taxonomy using Kraken2 of assembled contigs ###
 
 configfile: "config/config.yaml"
 
-### Run Kraken2 to assign taxonomy
+### Run Kraken2 to assign taxonomy of assembled contigs
 
-rule kraken2:
+rule kraken2_assem:
   #conda:
     #"../workflow/envs/environment.yaml"
   input:
-    "results/preprocessing/trimmed_filtered/{PATHS}_trimmed_filtered.fastq"
+    "results/preprocessing/flye_results/{PATHS}/assembly.fasta"
   output:
-    report = "results/kraken2/{PATHS}_kraken_report.txt",
-    kraken = "results/kraken2/{PATHS}_kraken.krk"
+    report = "results/kraken2/{PATHS}_assem_kraken_report.txt",
+    kraken = "results/kraken2/{PATHS}_assem_kraken.krk"
   params:
     kraken_db = config['kraken_db'],
     confidence = config['kraken_confidence'],

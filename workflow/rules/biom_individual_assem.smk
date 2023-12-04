@@ -1,30 +1,30 @@
-### Rules to convert Kraken2 report results to R-friendly tabular format with biom ###
+### Rules to convert Kraken2 report results to R-friendly tabular format with biom of assembled contigs ###
 
 configfile: "config/config.yaml"
 
-### Convert kraken reports to biom format
+### Convert kraken reports to biom format of assembled contigs
 
-rule kraken_to_biom_individual:
+rule kraken_to_biom_individual_assem:
   #conda:
   #"../workflow/envs/environment.yaml"
   input:
-    "results/kraken2/{PATHS}_kraken_report.txt"
+    "results/kraken2/{PATHS}_assem_kraken_report.txt"
   output:
-    "results/biom/{PATHS}_kraken2.biom"
+    "results/biom/{PATHS}_assem_kraken2.biom"
   shell:
     "kraken-biom {input} --fmt hdf5 -o {output}"
     # --fmt indicates the output format desired, --max is assigned reads will be recorded only if they are at or below max rank, Default: O
     # and the ranks are D,P,C,O,F,G,S
 
-### Convert kraken2 biom files to tsv and modify for analysis in R
+### Convert kraken2 biom files to tsv and modify for analysis in R of assembled contigs
 
-rule biom_to_tsv_individual:
+rule biom_to_tsv_individual_assem:
   #conda:
   #"../workflow/envs/environment.yaml"
   input:
-    "results/biom/{PATHS}_kraken2.biom"
+    "results/biom/{PATHS}_assem_kraken2.biom"
   output:
-    report("results/biom/{PATHS}_kraken2.tsv", caption="report/kraken2_individual.rst", category="Kraken2")
+    report("results/biom/{PATHS}_assem_kraken2.tsv", caption="report/kraken2_individual.rst", category="Kraken2")
   shell:
     """
     biom convert -i {input} -o {output} --to-tsv --header-key taxonomy;
