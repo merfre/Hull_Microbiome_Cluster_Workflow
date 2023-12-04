@@ -14,7 +14,7 @@ include_assembly: False
 
 ## Host contamination removal
 # indicate with True/False whether to include removal of host sequences with minimap2
-include_host_removal: False
+include_host_removal: True
 
 ### Database locations ###
 # Place your reference databases in these locations or edit to specify the location
