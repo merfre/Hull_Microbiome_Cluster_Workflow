@@ -62,9 +62,9 @@ else:
 
 # Downstream analyses option
 if config['include_downstream'] == True & config['include_assembly'] == True:
-  optional_outputs.extend(["results/downstream/alpha_div_table_assem.tsv","results/downstream/beta_pca_assem.pdf",])
+  optional_outputs.extend(["results/downstream/alpha_div_table_assem.tsv","results/downstream/beta_pca_assem.pdf"])
 elif config['include_downstream'] == True & config['include_assembly'] == False:
-  optional_outputs.extend(["results/downstream/alpha_div_table_unassem.tsv","results/downstream/beta_pca_unassem.pdf",])
+  optional_outputs.extend(["results/downstream/alpha_div_table_unassem.tsv","results/downstream/beta_pca_unassem.pdf"])
 
 ### Target rule ###
 
