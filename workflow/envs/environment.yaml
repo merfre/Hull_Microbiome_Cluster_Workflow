@@ -29,3 +29,17 @@ dependencies:
   - seqkit # read statistics throughout workflow
   - biom-format # file format conversion for analysis
   - kraken-biom # creates BIOM file from kraken output
+
+# Packages for analysis in R
+  - r-base==3.6.3
+  - r-tidyverse
+  - r-dplyr
+  - r-vegan
+  - r-tibble
+  - r-rcolorbrewer
+  - r-ggplot2
+  - r-gdata
+  - r-ggrepel
+  - r-ggfortify
+  - r-stringi
+  - r-gplots
