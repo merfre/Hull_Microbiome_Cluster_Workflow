@@ -132,7 +132,7 @@ elif config['include_downstream'] == True & config['include_assembly'] == False:
 
   print("Downstream analyses including diversity calculations and taxonomy plots will be performed\n")
 
-else:
+elif config['include_downstream'] == False:
 
   print("No downstream analyses will be performed\n")
 
