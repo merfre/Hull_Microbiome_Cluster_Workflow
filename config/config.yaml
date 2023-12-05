@@ -43,3 +43,7 @@ minimum_overlap: "1000"
 # For kraken2
 kraken_confidence: "0.1" #specify a threshold score in the [0,1] interval;
 # classifier then will adjust labels up the tree until the label's score (described below) meets or exceeds that threshold
+
+# For downstream analyses
+taxonomy_level: "genus_species" # specify which taxonomy level to use for downstream analyses
+# options: "kingdom", "phyla", "class", "order", "family", "genus_species"

@@ -6,7 +6,7 @@ configfile: "config/config.yaml"
 # 3. Assembly assessment - metaquast?
 # 4. *Downstream analyses scripts - just general from mmcaw
 #     diversity scores, alpha and beta, tax barplot, species 
-#     heatmap? - ADD R AND PACKAGES TO ENVIRONMENT and option in config etc.
+#     heatmap? - ADD plots to report!!
 # 5. Add messages and remove printing??
 # 6. Add logs to rules 
 # 7. Test directory for repo

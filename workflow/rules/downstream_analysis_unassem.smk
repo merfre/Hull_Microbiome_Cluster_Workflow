@@ -12,7 +12,7 @@ rule alpha_diversity_unassem:
   output:
     "results/downstream/alpha_div_table_unassem.tsv"
   params:
-    tax_level = "genus_species"
+    tax_level = config['taxonomy_level']
   script:
     "scripts/alpha_diversity.R"
 
@@ -26,6 +26,20 @@ rule beta_diversity_unassem:
   output:
     "results/downstream/beta_pca_unassem.pdf"
   params:
-    tax_level = "genus_species"
+    tax_level = config['taxonomy_level']
   script:
     "scripts/beta_div_pca.R"
+
+### Create heatmap of taxonomies for unassembled reads
+
+rule tax_heatmap_unassem:
+  #conda:
+  #"../workflow/envs/environment.yaml"
+  input:
+    "results/biom/kraken2_unassem_allsamples.tsv"
+  output:
+    "results/downstream/tax_heatmap_unassem.pdf"
+  params:
+    tax_level = config['taxonomy_level']
+  script:
+    "scripts/taxonomy_heatmaps_kraken.R"
