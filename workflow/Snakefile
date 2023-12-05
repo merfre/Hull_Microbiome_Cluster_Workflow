@@ -55,16 +55,12 @@ if config['include_host_removal'] == True:
 
 # Assembly option
 if config['include_assembly'] == True:
-  optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv", "results/biom/kraken2_assem_allsamples.tsv", 
-  expand("results/biom/{path}_assem_kraken2.tsv", path=PATHS)])
+  optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv", "results/biom/kraken2_assem_allsamples.tsv",
+  expand("results/biom/{path}_assem_kraken2.tsv", path=PATHS),"results/downstream/alpha_div_table_assem.tsv",
+  "results/downstream/beta_pca_assem.pdf"])
 else:
-  optional_outputs.extend(["results/biom/kraken2_unassem_allsamples.tsv", expand("results/biom/{path}_unassem_kraken2.tsv", path=PATHS)])
-
-# Downstream analyses option
-if config['include_downstream'] == True & config['include_assembly'] == True:
-  optional_outputs.extend(["results/downstream/alpha_div_table_assem.tsv","results/downstream/beta_pca_assem.pdf"])
-elif config['include_downstream'] == True & config['include_assembly'] == False:
-  optional_outputs.extend(["results/downstream/alpha_div_table_unassem.tsv","results/downstream/beta_pca_unassem.pdf"])
+  optional_outputs.extend(["results/biom/kraken2_unassem_allsamples.tsv", expand("results/biom/{path}_unassem_kraken2.tsv", path=PATHS),
+  "results/downstream/alpha_div_table_unassem.tsv","results/downstream/beta_pca_unassem.pdf"])
 
 ### Target rule ###
 
@@ -107,6 +103,8 @@ if config['include_assembly'] == True:
 
   include: "rules/biom_all_samples_assem.smk" # convert kraken2 results to tabular format for R for all samples
 
+  include: "rules/downstream_analysis_assem.smk"
+
   print("Read assembly will be performed by metaFlye and analyses will be performed as normal\n")
 
 else:
@@ -117,24 +115,9 @@ else:
 
   include: "rules/biom_all_samples_unassem.smk" # convert kraken2 results to tabular format for R for all samples
 
-  print("metaFlye for read assembly will not be included and analyses will be performed as normal\n")
-
-# 4. Downstream analyses
-if config['include_downstream'] == True & config['include_assembly'] == True:
-    
-  include: "rules/downstream_analysis_assem.smk"
-
-  print("Downstream analyses including diversity calculations and taxonomy plots will be performed\n")
-
-elif config['include_downstream'] == True & config['include_assembly'] == False:
-
   include: "rules/downstream_analysis_unassem.smk"
 
-  print("Downstream analyses including diversity calculations and taxonomy plots will be performed\n")
+  print("metaFlye for read assembly will not be included and analyses will be performed as normal\n")
 
-elif config['include_downstream'] == False:
-
-  print("No downstream analyses will be performed\n")
-
-# 5. Report creation
+# 4. Report creation
 report: "rules/report/workflow.rst"
