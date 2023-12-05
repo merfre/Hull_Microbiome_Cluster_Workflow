@@ -10,11 +10,15 @@ metadata_file: "config/metadata_example.txt" # example: "config/metadata_example
 
 ## Contig assembly and assessment
 # indicate with True/False whether to assemble with metaflye
-include_assembly: True
+include_assembly: False
 
 ## Host contamination removal
 # indicate with True/False whether to include removal of host sequences with minimap2
-include_host_removal: True
+include_host_removal: False
+
+## Downstream analyses
+# indicated with True/False whether to include downstream analyses of microbiome data
+include_downstream: True
 
 ### Database locations ###
 # Place your reference databases in these locations or edit to specify the location
