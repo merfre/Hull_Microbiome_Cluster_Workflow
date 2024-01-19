@@ -80,10 +80,16 @@ if config['include_host_removal'] == True:
 if config['include_assembly'] == True:
   optional_outputs.extend(["results/qc_reports/assembly_stat_report.tsv", "results/biom/kraken2_assem_allsamples.tsv",
   expand("results/biom/{path}_assem_kraken2.tsv", path=PATHS),"results/downstream/alpha_div_table_assem.tsv",
-  "results/downstream/beta_pca_assem.pdf"])
+  "results/downstream/beta_pca_assem.pdf", "results/downstream/tax_heatmap_assem.pdf", "results/downstream/tax_barplot_assem.pdf"])
 else:
   optional_outputs.extend(["results/biom/kraken2_unassem_allsamples.tsv", expand("results/biom/{path}_unassem_kraken2.tsv", path=PATHS),
-  "results/downstream/alpha_div_table_unassem.tsv","results/downstream/beta_pca_unassem.pdf"])
+  "results/downstream/alpha_div_table_unassem.tsv","results/downstream/beta_pca_unassem.pdf", "results/downstream/tax_heatmap_unassem.pdf",
+  "results/downstream/tax_barplot_unassem.pdf"])
+
+# Binning option
+
+if config['include_binning'] == True:
+  optional_outputs.extend([""])
 
 ### Target rule ###
 
@@ -141,6 +147,18 @@ else:
   include: "rules/downstream_analysis_unassem.smk"
 
   print("metaFlye for read assembly will not be included and analyses will be performed as normal\n")
+
+# 5. Perform binning of assembled contigs with MetaBAT2 for MAG analysis
+
+if config['include_binning'] == True:
+
+  include: "rules/metabat2.smk"
+
+  print("Binning of contigs will be performed by MetaBAT2 to assist in MAG analysis")
+
+else:
+
+  print("MetaBAT2 for contig binning will not be included and analyses will be performed as normal")
 
 # 4. Report creation
 report: "rules/report/workflow.rst"

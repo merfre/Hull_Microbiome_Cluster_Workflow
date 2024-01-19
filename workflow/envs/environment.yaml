@@ -21,6 +21,7 @@ dependencies:
   - flye # assembly
   - minimap2 # host removal
   - samtools # host removal
+  - metabat2 # binning for MAGs
 
 # Taxonomy assignment
   - kraken2 # taxonomy assignment
