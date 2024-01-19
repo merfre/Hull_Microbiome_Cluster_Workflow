@@ -10,7 +10,7 @@ rule alpha_diversity_unassem:
   input:
     "results/biom/kraken2_unassem_allsamples.tsv"
   output:
-    "results/downstream/alpha_div_table_unassem.tsv"
+    report("results/downstream/alpha_div_table_unassem.tsv", caption="report/alpha_diversity_reports.rst", category="Downstream Analyses")
   params:
     tax_level = config['taxonomy_level']
   script:
@@ -24,7 +24,7 @@ rule beta_diversity_unassem:
   input:
     "results/biom/kraken2_unassem_allsamples.tsv"
   output:
-    "results/downstream/beta_pca_unassem.pdf"
+    report("results/downstream/beta_pca_unassem.pdf", caption="report/beta_diversity_reports.rst", category="Downstream Analyses")
   params:
     tax_level = config['taxonomy_level']
   script:
@@ -38,8 +38,22 @@ rule tax_heatmap_unassem:
   input:
     "results/biom/kraken2_unassem_allsamples.tsv"
   output:
-    "results/downstream/tax_heatmap_unassem.pdf"
+    report("results/downstream/tax_heatmap_unassem.pdf", caption="report/tax_heatmap_reports.rst", category="Downstream Analyses")
   params:
     tax_level = config['taxonomy_level']
   script:
     "scripts/taxonomy_heatmaps_kraken.R"
+
+### Taxonomy barplots
+
+rule tax_barplot_unassem:
+  #conda:
+  #"../workflow/envs/environment.yaml"
+input:
+  "results/biom/kraken2_unassem_allsamples.tsv"
+output:
+  report("results/downstream/tax_barplot_unassem.pdf", caption="report/tax_barplot_reports.rst", category="Downstream Analyses")
+params:
+  tax_level = config['taxonomy_level']
+script:
+  "scripts/stacked_taxonomy_barplot_kraken.R"

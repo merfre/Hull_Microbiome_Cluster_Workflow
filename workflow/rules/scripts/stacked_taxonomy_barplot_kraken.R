@@ -6,198 +6,83 @@ library(tibble)
 # for `rownames_to_column` and `column_to_rownames`
 library(RColorBrewer)
 # for plot colors
+library(dplyr)
+# various commands to manipulate data frames
 
 ## Load files
 
-sppno = snakemake@config[["prevalence"]]
+kraken2_results <- read.table(file = snakemake@input[[1]], sep = '\t', header = TRUE, row.names = 1)
 
-# Kraken2
+# Select tax level
 
-kraken_results <- read.table(file = snakemake@input[[1]], sep = '\t', header = TRUE, row.names = 1)
+tax_level = snakemake@params[[1]]
 
-### Defining function
+kraken2_tax_level <- select(kraken2_results, ends_with("kraken_report"), all_of(tax_level))
+# Separate samples and genus and species levels
 
-taxonomy_stacked_barplot <- function(input, assigner, suffix, out_path) {
-  
-  input <- input[!(input$species=="unidentified" | input$species=="unknown bacterium"),]
-  # remove results completely unclassified
-  
-  row.names(input) <- make.names(input$species, unique=TRUE)
-  # Changes row names to species names
-  
-  columns_remove <- c(which(colnames(input)=="species"))
-  # determine which redundant columns to remove
-  
-  input <- input[-columns_remove]
-  # Removes redundant species column
-  
-  colnames(input) <- gsub(suffix,' ',colnames(input))
-  # Remove assigner suffix in column names
-  
-  if(ncol(input) > 1)
-  {
-    input <- input[,order(colnames(input))]
-    # order the columns by sample names for colors on plot
-  } else
-  {
-    input <- input
-  }
-  
-  ### If statements for determining number of samples and most prevalent species
-  
-  if(nrow(input) >= sppno & ncol(input) > 1)
-  {
-    ## Determine most prevalent species
-    
-    logic_prop <- as.matrix(t(input)[, 1:ncol(t(input))] != 0)
-    
-    logic_prop <- data.frame(1*logic_prop)
-    
-    logic_prop <- data.frame(1*logic_prop)
-    
-    species_prop <- data.frame(colSums(logic_prop))
-    
-    species_propt <- data.frame(t(species_prop))
-    
-    sortspecies_propt <- sort(species_propt, decreasing=TRUE)
-    
-    top_species <- data.frame(sortspecies_propt[1:sppno])
-    
-    top_names <- colnames(top_species)
-    
-    species_names <- colnames(sortspecies_propt)
-    
-    ## Barplot
-    
-    top_abun <- data.frame(t(input[order(rownames(input)),]))
-    
-    top_abun <- as.matrix(top_abun[colnames(top_abun) %in% top_names])
-    
-    sample_size <- nrow(top_abun)
-    species_color <- ncol(top_abun)
-    qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
-    col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-    
-    color=sample(col_vector, species_color)
-    
-    all_plot <- data.frame(
-      Sample_ID=rep(c(rownames(top_abun)), each = ncol(top_abun)),
-      Species=rep(c(colnames(top_abun)), sample_size),
-      Abundance=unlist(list(as.numeric(t(top_abun))))
-    )
-    
-    pdf(out_path, width=25,height=20)
-    
-    print(ggplot(all_plot, aes(fill=Species, y=Abundance, x=Sample_ID)) +
-            geom_bar(position="fill", stat="identity", colour="black")+
-            scale_fill_manual(values = color)+
-            theme(axis.text.x = element_text(angle = 45, vjust = 1,
-                                             size = 12, hjust = 1))+
-            labs(title=paste(assigner, "taxonomy plot of the top", sppno, "most prevalent species", sep=" ")))
-    #print(ggplot()) is required to prevent corrupted pdf in a loop/function
-    dev.off()
-  } else if (nrow(input) < sppno & ncol(input) > 1)
-  {
-    ## Barplot
-    
-    abun <- data.frame(t(input[order(rownames(input)),]))
-    
-    sample_size <- nrow(abun)
-    species_color <- ncol(abun)
-    qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
-    col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-    
-    color=sample(col_vector, species_color)
-    
-    all_plot <- data.frame(
-      Sample_ID=rep(c(rownames(abun)), each = ncol(abun)),
-      Species=rep(c(colnames(abun)), sample_size),
-      Abundance=unlist(list(as.numeric(t(abun))))
-    )
-    
-    pdf(out_path, width=25,height=20)
-    
-    print(ggplot(all_plot, aes(fill=Species, y=Abundance, x=Sample_ID)) +
-            geom_bar(position="fill", stat="identity", colour="black")+
-            scale_fill_manual(values = color)+
-            theme(axis.text.x = element_text(angle = 45, vjust = 1,
-                                             size = 12, hjust = 1))+
-            labs(title=paste(assigner, "taxonomy plot of all species identified", sep=" ")))
-    #print(ggplot()) is required to prevent corrupted pdf in a loop/function
-    dev.off()
-  } else if (nrow(input) >= sppno & ncol(input) < 1)
-  {
-    ## Determine most abundant species
-    
-    sortspecies <- sort(data.frame(t(input)), decreasing=TRUE)
-    
-    top_species <- data.frame(sortspecies[1:sppno])
-    
-    top_names <- colnames(top_species)
-    
-    species_names <- colnames(sortspecies)
-    
-    ## Barplot
-    
-    top_abun <- data.frame(t(input))
-    
-    top_abun <- as.matrix(top_abun[colnames(top_abun) %in% top_names])
-    
-    sample_size <- nrow(top_abun)
-    species_color <- ncol(top_abun)
-    qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
-    col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-    
-    color=sample(col_vector, species_color)
-    
-    all_plot <- data.frame(
-      Sample_ID=rep(c(rownames(top_abun)), each = ncol(top_abun)),
-      Species=rep(c(colnames(top_abun)), sample_size),
-      Abundance=unlist(list(as.numeric(t(top_abun))))
-    )
-    
-    pdf(out_path, width=25,height=20)
-    
-    print(ggplot(all_plot, aes(fill=Species, y=Abundance, x=Sample_ID)) +
-            geom_bar(position="fill", stat="identity", colour="black")+
-            scale_fill_manual(values = color)+
-            theme(axis.text.x = element_text(angle = 45, vjust = 1,
-                                             size = 12, hjust = 1))+
-            labs(title=paste(assigner, "taxonomy plot of the top", sppno, "most prevalent species", sep=" ")))
-    #print(ggplot()) is required to prevent corrupted pdf in a loop/function
-    dev.off()
-  } else (nrow(input) < sppno & ncol(input) < 1)
-  {
-    ## Barplot
-    
-    abun <- data.frame(t(input))
-    
-    sample_size <- nrow(abun)
-    species_color <- ncol(abun)
-    qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
-    col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
-    
-    color=sample(col_vector, species_color)
-    
-    all_plot <- data.frame(
-      Sample_ID=rep(c(rownames(abun)), each = ncol(abun)),
-      Species=rep(c(colnames(abun)), sample_size),
-      Abundance=unlist(list(as.numeric(t(abun))))
-    )
-    
-    pdf(out_path, width=25,height=20)
-    
-    print(ggplot(all_plot, aes(fill=Species, y=Abundance, x=Sample_ID)) +
-            geom_bar(position="fill", stat="identity", colour="black")+
-            scale_fill_manual(values = color)+
-            theme(axis.text.x = element_text(angle = 45, vjust = 1,
-                                             size = 12, hjust = 1))+
-            labs(title=paste(assigner, "taxonomy plot of all species identified", sep=" ")))
-    #print(ggplot()) is required to prevent corrupted pdf in a loop/function
-    dev.off()
-  }
+tax_level_pos <- ncol(kraken2_tax_level)
+# Determine the column number of the taxonomy level
+
+kraken2_tax_level <- kraken2_tax_level[!(is.na(kraken2_tax_level[tax_level_pos]) | kraken2_tax_level[tax_level_pos]==" "),]
+
+row.names(kraken2_tax_level) <- make.names(kraken2_tax_level[,tax_level], unique=TRUE)
+
+columns_remove <- c(which(colnames(kraken2_tax_level)==tax_level))
+
+kraken2_tax_level <- kraken2_tax_level[-columns_remove]
+
+if(ncol(kraken2_tax_level) > 1)
+{
+  kraken2_tax_level <- kraken2_tax_level[,order(colnames(kraken2_tax_level))]
+  # order the columns by sample names for colors on plot
+} else
+{
+  kraken2_tax_level <- kraken2_tax_level
 }
 
-### Plot creation
+# Order the species by least to most abundant
 
-taxonomy_stacked_barplot(kraken_results, "Kraken2", '_kraken', snakemake@output[[1]])
+tax_sums <- data.frame(rowSums(kraken2_tax_level))
+
+kraken2_tax_level_sums <- cbind(kraken2_tax_level, tax_sums)
+
+kraken2_tax_level_sums <- kraken2_tax_level_sums[order(kraken2_tax_level_sums$rowSums.kraken2_tax_level.),]
+
+sum_col <- c(which(colnames(kraken2_tax_level_sums)=="rowSums.kraken2_tax_level."))
+
+kraken2_tax_level_sums <- kraken2_tax_level_sums[-sum_col]
+
+kraken2_plot_table <- data.frame(t(kraken2_tax_level_sums))
+
+## Plot Creation
+
+sample_size <- nrow(kraken2_plot_table)
+species_color <- ncol(kraken2_plot_table)
+qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+
+color=sample(col_vector, species_color)
+
+all_plot <- data.frame(
+  Sample_ID=rep(c(rownames(kraken2_plot_table)), each = ncol(kraken2_plot_table)),
+  Taxonomies=rep(c(colnames(kraken2_plot_table)), sample_size),
+  Abundance=unlist(list(as.numeric(t(kraken2_plot_table))))
+)
+
+# To keep order of taxonomies to abundance (how the dataframe is organized) and 
+# not based on name (because ggplot2 automatically reorders data)
+# make the fill option the factor: fill=factor(Taxonomies, unique(Taxonomies))
+
+pdf(snakemake@output[[1]], width=25,height=20)
+
+print(ggplot(all_plot, aes(fill=factor(Taxonomies, unique(Taxonomies)), y=Abundance, x=Sample_ID)) +
+        geom_bar(position="fill", stat="identity", colour="black")+
+        scale_fill_manual(values = color)+
+        theme(axis.text.x = element_text(angle = 45, vjust = 1,
+                                         size = 15, hjust = 1),
+              title = element_text(size = 20),
+              axis.title.x = element_text(size = 20),
+              axis.title.y = element_text(size = 20))+
+        labs(title=paste("Taxonomy plot of", tax_level, "level Kraken2 results", sep=" ")))
+#print(ggplot()) is required to prevent corrupted pdf in a loop/function
+dev.off()

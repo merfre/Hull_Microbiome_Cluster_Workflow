@@ -1,8 +1,15 @@
 ### Script for creating species heatmap ###
 
 library(ggplot2)
+# for creating plots
 library("RColorBrewer")
+# for plot colors
 library("gplots")
+# for creating plots
+library(tibble)
+# for `rownames_to_column` and `column_to_rownames`
+library(dplyr)
+# various commands to manipulate data frames
 
 ## Load and transform data
 

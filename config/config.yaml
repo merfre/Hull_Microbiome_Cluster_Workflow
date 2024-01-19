@@ -8,6 +8,12 @@ metadata_file: "config/metadata_example.txt" # example: "config/metadata_example
 
 ### Analysis options ###
 
+## Rename barcodes to sample ID
+# indicate with True/False whether to rename barcode fastq files to sample IDS
+rename_samples: False
+# For this option please provide a column in the metadata file titled "Barcode"
+# example: "metadata_rename_example.txt"
+
 ## Contig assembly and assessment
 # indicate with True/False whether to assemble with metaflye
 include_assembly: False
