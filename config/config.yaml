@@ -14,17 +14,18 @@ rename_samples: False
 # For this option please provide a column in the metadata file titled "Barcode"
 # example: "metadata_rename_example.txt"
 
-## Contig assembly and assessment
-# indicate with True/False whether to assemble with metaflye
-include_assembly: False
-
 ## Host contamination removal
 # indicate with True/False whether to include removal of host sequences with minimap2
 include_host_removal: True
 
+## Contig assembly and assessment
+# indicate with True/False whether to assemble with metaflye
+include_assembly: False
+
 ## Contig binning for MAG analysis
 # indicate with True/False whether to include binning of assembled contigs with MetaBAT2
 include_binning: True
+# To run this step assembly must be included in analysis
 
 ### Database locations ###
 # Place your reference databases in these locations or edit to specify the location

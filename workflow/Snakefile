@@ -87,7 +87,7 @@ else:
 
 # Binning option
 
-if config['include_binning'] == True:
+if config['include_binning'] == True & config['include_assembly'] == True:
   optional_outputs.extend([expand("results/preprocessing/metabat2_binning/{path}_bins/bin", path=PATHS)])
 
 ### Target rule ###
@@ -149,7 +149,7 @@ else:
 
 # 5. Perform binning of assembled contigs with MetaBAT2 for MAG analysis
 
-if config['include_binning'] == True:
+if config['include_binning'] == True & config['include_assembly'] == True:
 
   include: "rules/metabat2.smk"
 
