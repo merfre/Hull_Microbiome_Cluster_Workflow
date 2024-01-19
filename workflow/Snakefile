@@ -26,16 +26,10 @@ metadata = config['metadata_file']
 
 sample_df = pd.read_table(metadata, header=0)
 
-# ok the sampleID doesn't have to change you just need to add a column titled Barcode 
-# Then here if rename_samples is true I need to rename the fastq files using python
-# the concatonating script is a good outline for this - I get the barcode fastq path
-# then I need to rename this file to the new sample ID plus path after that it should
-# be business as usual - I don't need to change the metadata file in this script
-# For testing: just do false and have a regular test run of my changes so far
-# then to test this code I add a column (to rename example) and run it
-
 # Option to rename barcode fastqs to provided sample IDs
 
+# MAY NEED ANOTHER IF STATMENT TO COMPARE CURRENT FILE TO SAMPLE
+# OR CHECK IF BARCODE IS THE NAME OF THE FILE
 if config['rename_samples'] == True:
   for row in range(len(sample_df)):
     barcode = sample_df.loc[row,'Barcode']
@@ -43,7 +37,9 @@ if config['rename_samples'] == True:
     sample = sample_df.loc[row,'Sample_ID']
     bar_path = str().join('./resources/'+run+'/'+barcode+'.fastq')
     new_path = str().join('./resources/'+run+'/'+sample+'.fastq')
-    os.rename(bar_path,new_path)
+    correctly_named = os.path.exists(bar_path)
+    if correctly_named == True:
+      os.rename(bar_path,new_path)
 
 # Retrieve path of fastq files
 
