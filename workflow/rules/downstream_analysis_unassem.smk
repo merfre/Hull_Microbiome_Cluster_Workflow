@@ -49,11 +49,11 @@ rule tax_heatmap_unassem:
 rule tax_barplot_unassem:
   #conda:
   #"../workflow/envs/environment.yaml"
-input:
-  "results/biom/kraken2_unassem_allsamples.tsv"
-output:
-  "results/downstream/tax_barplot_unassem.pdf"
-params:
-  tax_level = config['taxonomy_level']
-script:
-  "scripts/stacked_taxonomy_barplot_kraken.R"
+  input:
+    "results/biom/kraken2_unassem_allsamples.tsv"
+  output:
+    report("results/downstream/tax_barplot_unassem.pdf", caption="report/tax_barplot_reports.rst", category="Downstream Analyses")
+  params:
+    tax_level = config['taxonomy_level']
+  script:
+    "scripts/stacked_taxonomy_barplot_kraken.R"
