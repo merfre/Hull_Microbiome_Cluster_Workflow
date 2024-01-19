@@ -16,15 +16,15 @@ rename_samples: False
 
 ## Host contamination removal
 # indicate with True/False whether to include removal of host sequences with minimap2
-include_host_removal: True
+include_host_removal: False
 
 ## Contig assembly and assessment
 # indicate with True/False whether to assemble with metaflye
-include_assembly: True
+include_assembly: False
 
 ## Contig binning for MAG analysis
 # indicate with True/False whether to include binning of assembled contigs with MetaBAT2
-include_binning: True
+include_binning: False
 # To run this step assembly must be included in analysis
 
 ### Database locations ###
