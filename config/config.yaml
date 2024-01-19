@@ -10,7 +10,7 @@ metadata_file: "config/metadata_rename_example.txt" # example: "config/metadata_
 
 ## Rename barcodes to sample ID
 # indicate with True/False whether to rename barcode fastq files to sample IDS
-rename_samples: False
+rename_samples: True
 # For this option please provide a column in the metadata file titled "Barcode"
 # example: "metadata_rename_example.txt"
 
