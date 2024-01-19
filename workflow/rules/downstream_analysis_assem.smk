@@ -10,7 +10,7 @@ rule alpha_diversity_assem:
   input:
     "results/biom/kraken2_assem_allsamples.tsv"
   output:
-    report = report("results/downstream/alpha_div_table_assem.tsv", caption="report/alpha_diversity_reports.rst", category="Downstream Analyses")
+    report("results/downstream/alpha_div_table_assem.tsv", caption="report/alpha_diversity_reports.rst", category="Downstream Analyses")
   params:
     tax_level = config['taxonomy_level']
   script:
@@ -24,7 +24,7 @@ rule beta_diversity_assem:
   input:
     "results/biom/kraken2_assem_allsamples.tsv"
   output:
-    report = report("results/downstream/beta_pca_assem.pdf", caption="report/beta_diversity_reports.rst", category="Downstream Analyses")
+    report("results/downstream/beta_pca_assem.pdf", caption="report/beta_diversity_reports.rst", category="Downstream Analyses")
   params:
     tax_level = config['taxonomy_level']
   script:
@@ -38,7 +38,7 @@ rule tax_heatmap_assem:
   input:
     "results/biom/kraken2_assem_allsamples.tsv"
   output:
-    report = report("results/downstream/tax_heatmap_assem.pdf", caption="report/tax_heatmap_reports.rst", category="Downstream Analyses")
+    report("results/downstream/tax_heatmap_assem.pdf", caption="report/tax_heatmap_reports.rst", category="Downstream Analyses")
   params:
     tax_level = config['taxonomy_level']
   script:
@@ -52,7 +52,7 @@ rule tax_barplot_assem:
 input:
   "results/biom/kraken2_assem_allsamples.tsv"
 output:
-  report = report("results/downstream/tax_barplot_assem.pdf", caption="report/tax_barplot_reports.rst", category="Downstream Analyses")
+  report("results/downstream/tax_barplot_assem.pdf", caption="report/tax_barplot_reports.rst", category="Downstream Analyses")
 params:
   tax_level = config['taxonomy_level']
 script:
