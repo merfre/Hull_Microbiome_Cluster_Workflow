@@ -72,3 +72,12 @@ MetaBAT2_tnf_prob: "0" # TNF probability cutoff for building TNF graph. Use it t
 MetaBAT2_min_coverage: "1" # Minimum mean coverage of a contig in each library for binning (default=1).
 MetaBAT2_min_coverage_sum: "1" # Minimum total effective mean coverage of a contig (sum of depth over minCV) for binning (default=1).
 MetaBAT2_min_bin_size: "2000" # Minimum size of a bin as the output (default=200000).
+
+### Optional step prior to running MetaBAT2
+
+# MetaBAT2 allows for the use of a summary bam file to be used when binning
+# It is a file having mean and variance of base coverage depth (tab delimited;
+# the first column should be contig names, and the first row will be
+# considered as the header and be skipped)
+# The effect of including or excluding this file is not described by MetaBAT2
+# To produce the optional file: jgi_summarize_bam_contig_depths --outputDepth depth.txt *.bam

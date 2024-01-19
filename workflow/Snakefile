@@ -7,7 +7,6 @@ configfile: "config/config.yaml"
 # Add messages and remove printing?
 # Add logs to rules 
 # Test directory for repo
-#**add metabat2
 #**test 
 #**batch scripts
 #**Make pig host reference (ideally a script to send to michelle if she needs)
@@ -89,7 +88,7 @@ else:
 # Binning option
 
 if config['include_binning'] == True:
-  optional_outputs.extend([""])
+  optional_outputs.extend([expand("results/preprocessing/metabat2_binning/{path}_bins/bin", path=PATHS)])
 
 ### Target rule ###
 

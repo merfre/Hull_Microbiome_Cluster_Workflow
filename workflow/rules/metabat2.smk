@@ -1,15 +1,6 @@
 ### Rule to run MetaBAT2 and create bins of reads ###
 
-configfile: "config/config.yml"
-
-### Optional step prior to running MetaBAT2
-
-# MetaBAT2 allows for the use of a summary bam file to be used when binning
-# It is a file having mean and variance of base coverage depth (tab delimited;
-# the first column should be contig names, and the first row will be
-# considered as the header and be skipped)
-# The effect of including or excluding this file is not described by MetaBAT2
-# To produce the optional file: jgi_summarize_bam_contig_depths --outputDepth depth.txt *.bam
+configfile: "config/config.yaml"
 
 ### Run MetaBAT2 to perform binning of assembled contigs
 
