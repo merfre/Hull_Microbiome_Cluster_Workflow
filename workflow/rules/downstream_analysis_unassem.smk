@@ -52,7 +52,7 @@ rule tax_barplot_unassem:
 input:
   "results/biom/kraken2_unassem_allsamples.tsv"
 output:
-  report("results/downstream/tax_barplot_unassem.pdf", caption="report/tax_barplot_reports.rst", category="Downstream Analyses")
+  "results/downstream/tax_barplot_unassem.pdf"
 params:
   tax_level = config['taxonomy_level']
 script:
