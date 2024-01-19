@@ -10,7 +10,7 @@ rule metabat2:
   input:
     "results/preprocessing/flye_results/{PATHS}/assembly.fasta"
   output:
-    "results/preprocessing/metabat2_binning/{PATHS}_bins/bin"
+    "results/preprocessing/metabat2_binning/{PATHS}_bins/bin.1.fa"
   params:
     MetaBAT2_min_size = config['MetaBAT2_min_size'],
     MetaBAT2_max_perc = config['MetaBAT2_max_perc'],
@@ -19,18 +19,19 @@ rule metabat2:
     MetaBAT2_tnf_prob = config['MetaBAT2_tnf_prob'],
     MetaBAT2_min_coverage = config['MetaBAT2_min_coverage'],
     MetaBAT2_min_coverage_sum = config['MetaBAT2_min_coverage_sum'],
-    MetaBAT2_min_bin_size = config['MetaBAT2_min_bin_size']
+    MetaBAT2_min_bin_size = config['MetaBAT2_min_bin_size'],
+    output_prefix = "results/preprocessing/metabat2_binning/{PATHS}_bins/bin"
   shell:
     """
-    "metabat2 -i {input} --minContig {params.MetaBAT2_min_size} \
+    metabat2 -i {input} --minContig {params.MetaBAT2_min_size} \
     --maxP {params.MetaBAT2_max_perc} --minS {params.MetaBAT2_min_edge} \
     --maxEdges {params.MetaBAT2_max_edge} --pTNF {params.MetaBAT2_tnf_prob} \
     --minCV {params.MetaBAT2_min_coverage} \
     --minCVSum {params.MetaBAT2_min_coverage_sum} \
-    --minClsSize {params.MetaBAT2_min_bin_size} -o {output}
+    --minClsSize {params.MetaBAT2_min_bin_size} -o {params.output_prefix}
     """
     # Descriptions for all parameters are in the configuration file next to the parameters
-    # input os the fasta format of filered and trimmed samples
+    # input is the fasta format of filered and trimmed samples
     # output is a base file name and path for each bin. The default output is fasta format.
     # Use -l option to output only contig names.
     # Set --noAdd when added small or leftover contigs cause too much contamination.

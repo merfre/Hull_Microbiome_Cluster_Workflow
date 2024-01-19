@@ -87,7 +87,7 @@ else:
 # Binning option
 
 if config['include_binning'] == True & config['include_assembly'] == True:
-  optional_outputs.extend([expand("results/preprocessing/metabat2_binning/{path}_bins/bin", path=PATHS)])
+  optional_outputs.extend([expand("results/preprocessing/metabat2_binning/{path}_bins/bin.1.fa", path=PATHS)])
 
 ### Target rule ###
 
