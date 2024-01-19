@@ -9,7 +9,6 @@ configfile: "config/config.yaml"
 # Test directory for repo
 #**test 
 #**batch scripts
-#**Make pig host reference (ideally a script to send to michelle if she needs)
 #tell everyone to update
 
 ### Define samples wildcard for input and output ###

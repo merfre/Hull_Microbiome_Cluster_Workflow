@@ -1,6 +1,7 @@
 results/*
 resources/*
 !resources/README.md
+!resources/pig_filtering_reference.sh
 logs/**
 .snakemake
 .snakemake/**
@@ -9,3 +10,4 @@ config/*
 !config/metadata_example.txt
 !config/README.md
 !config/seq_test_metadata.tsv
+!config/metadata_rename_example.txt
