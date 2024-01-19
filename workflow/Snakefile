@@ -38,14 +38,14 @@ sample_df = pd.read_table(metadata, header=0)
 
 # Option to rename barcode fastqs to provided sample IDs
 
-if config['rename_samples'] == True:
-  for row in range(len(sample_df)):
-    barcode = sample_df.loc[row,'Barcode']
-    run = sample_df.loc[row,'Run']
-    sample = sample_df.loc[row,'Sample_ID']
-    bar_path = str().join('./resources/'+run+'/'+barcode+'.fastq')
-    new_path = str().join('./resources/'+run+'/'+sample+'.fastq')
-    os.rename(bar_path,new_path)
+#if config['rename_samples'] == True:
+#  for row in range(len(sample_df)):
+#    barcode = sample_df.loc[row,'Barcode']
+#    run = sample_df.loc[row,'Run']
+#    sample = sample_df.loc[row,'Sample_ID']
+#    bar_path = str().join('./resources/'+run+'/'+barcode+'.fastq')
+#    new_path = str().join('./resources/'+run+'/'+sample+'.fastq')
+#    os.rename(bar_path,new_path)
 
 # Retrieve path of fastq files
 
