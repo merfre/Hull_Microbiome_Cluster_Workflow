@@ -19,14 +19,13 @@ rule metabat2:
     MetaBAT2_tnf_prob = config['MetaBAT2_tnf_prob'],
     MetaBAT2_min_coverage = config['MetaBAT2_min_coverage'],
     MetaBAT2_min_coverage_sum = config['MetaBAT2_min_coverage_sum'],
-    MetaBAT2_min_bin_size = config['MetaBAT2_min_bin_size'],
-    threads = config['threads']
+    MetaBAT2_min_bin_size = config['MetaBAT2_min_bin_size']
   shell:
     """
     "metabat2 -i {input} --minContig {params.MetaBAT2_min_size} \
     --maxP {params.MetaBAT2_max_perc} --minS {params.MetaBAT2_min_edge} \
     --maxEdges {params.MetaBAT2_max_edge} --pTNF {params.MetaBAT2_tnf_prob} \
-    --minCV {params.MetaBAT2_min_coverage} --numThreads {params.threads} \
+    --minCV {params.MetaBAT2_min_coverage} \
     --minCVSum {params.MetaBAT2_min_coverage_sum} \
     --minClsSize {params.MetaBAT2_min_bin_size} -o {output}
     """
