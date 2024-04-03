@@ -58,6 +58,6 @@ kraken_vegpca <- prcomp(kraken_vegd, center=TRUE, scale=TRUE)
 pdf(snakemake@output[[1]], width=15,height=10)
 
 autoplot(kraken_vegpca, label=TRUE, label.repel=TRUE,
-         main ="PCA of species Beta diversity from results of all taxonomic assigners")
+         main ="PCA of species Beta diversity from Kraken2 results")
 
 dev.off()
