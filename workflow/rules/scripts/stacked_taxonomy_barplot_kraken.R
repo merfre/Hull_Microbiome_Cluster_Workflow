@@ -61,7 +61,13 @@ species_color <- ncol(kraken2_plot_table)
 qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
 
-color=sample(col_vector, species_color)
+if(species_color > 74)
+{
+  color=sample(col_vector, species_color, replace=TRUE)
+} else
+{
+  color=sample(col_vector, species_color)
+}
 
 all_plot <- data.frame(
   Sample_ID=rep(c(rownames(kraken2_plot_table)), each = ncol(kraken2_plot_table)),
