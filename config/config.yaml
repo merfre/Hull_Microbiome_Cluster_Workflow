@@ -32,7 +32,7 @@ include_binning: False
 
 kraken_db: "resources/databases/kraken2_std_database"
 
-filtering_reference: "/home/639893/Adaptive_Sequencing_Analysis_Workflow/resources/databases/filtering_reference/GCF_000001405.40_GRCh38.p14_genomic.fna"
+filtering_reference: "resources/databases/filtering_reference/GCF_000001405.40_GRCh38.p14_genomic.fna"
 
 ### Parameters ###
 
