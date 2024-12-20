@@ -80,7 +80,7 @@ Then change the database name in the configuration file by editing this line:
 
     kraken_db: "resources/databases/kraken2_std_database"
 
-### Step 4:
+### Step 4: Load input data
 
 Once you have configured the workflow, be sure to move your data into the resources directory:
 
